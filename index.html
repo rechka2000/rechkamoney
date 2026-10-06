@@ -66,7 +66,7 @@ const SUPABASE_URL='https://nznigwurhsydisbgvnkf.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_RP8JSYvBczO9O_2o_ufa_A_b-buufiV';
 let supabase=null;
 try{if(window.supabase)supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){console.error(e)}
-let cloudUser=null,cloudReady=false,cloudLoading=false,cloudSaving=false,cloudSaveTimer=null,cloudPollTimer=null,cloudLoginInProgress=false,lastCloudSnapshot=snapshot();
+let cloudUser=null,cloudReady=false,cloudLoading=false,cloudSaving=false,cloudSaveTimer=null,cloudPollTimer=null,cloudLoginInProgress=false,lastCloudSnapshot=null;
 function cloudSetMessage(message,error=false){let e=document.getElementById('cloudError'),s=document.getElementById('cloudStatus');if(e)e.textContent=error?message:'';if(s)s.textContent=message}
 function cloudShowAuth(show){let e=document.getElementById('cloudAuth');if(e)e.classList.toggle('hidden',!show)}
 function cloudErrorText(e){return e?.message||e?.details||e?.hint||String(e)}

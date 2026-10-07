@@ -25,7 +25,6 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 /* ===== VISUAL MOTION — функциональная логика не изменена ===== */
 @keyframes softPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(.995)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes driveCar{0%{left:0;transform:translateX(-18px) rotate(-1deg)}72%{left:calc(100% - 22px);transform:translateX(0) rotate(0)}86%{left:calc(100% - 18px);transform:translateX(0) rotate(0)}100%{left:calc(100% - 18px);transform:translateX(0) rotate(0)}}
 @keyframes barGlow{0%,100%{box-shadow:inset 0 0 0 rgba(139,88,101,0)}50%{box-shadow:inset 0 0 12px rgba(139,88,101,.12)}}
 @keyframes shimmer{0%{background-position:-180px 0}100%{background-position:180px 0}}
 @keyframes gentleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
@@ -40,11 +39,10 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .nav button:hover{transform:translateY(-1px)}
 .value,.kpi .big{transition:transform .22s ease,color .22s ease}
 .kpi:hover .big{transform:translateY(-1px)}
-.bar>span:not(.debt-car){transition:width .65s cubic-bezier(.22,.8,.24,1);position:relative;overflow:hidden}
-.bar>span:not(.debt-car)::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.28) 45%,transparent 70%);background-size:180px 100%;animation:shimmer 2.8s linear infinite;opacity:.7}
+.bar>span{transition:width .65s cubic-bezier(.22,.8,.24,1);position:relative;overflow:hidden}
+.bar>span::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.28) 45%,transparent 70%);background-size:180px 100%;animation:shimmer 2.8s linear infinite;opacity:.7}
 .debt-bar{position:relative;overflow:visible;animation:barGlow 3.2s ease-in-out infinite}
 .debt-bar>span:first-child{overflow:hidden}
-.debt-car{position:absolute!important;top:50%;left:0;width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important;line-height:1;font-size:18px;z-index:3;transform:translateX(-18px) translateY(-58%);filter:drop-shadow(0 2px 2px rgba(50,70,100,.16));animation:driveCar 2.4s cubic-bezier(.22,.75,.2,1) .25s both}
 .car-debt .tag{transition:transform .2s ease,background .2s ease}
 .car-debt:hover .tag{transform:scale(1.04)}
 #piggyBar{animation:barGlow 3.8s ease-in-out infinite}
@@ -53,10 +51,11 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 
 @media (prefers-reduced-motion: reduce){
   .view.active,.card,.panel,.purchase,.period,.debt-bar,#piggyBar{animation:none!important}
-  .debt-car{animation:none!important;left:calc(100% - 18px);transform:translateY(-58%)}
-  .bar>span:not(.debt-car){transition:none!important}
+    .bar>span{transition:none!important}
 }
 
+
+.plan-goal{padding:7px 0;border-top:1px solid var(--line)}.plan-goal:first-child{border-top:0}.plan-goal b{font-weight:750}
 </style>
 <style>
 .cloud-auth{position:fixed;inset:0;z-index:100;background:#faf8f2;display:flex;align-items:center;justify-content:center;padding:20px}.cloud-auth.hidden{display:none}.cloud-auth-box{width:min(430px,100%);background:#fffefa;border:1px solid #ded5d2;border-radius:16px;padding:28px;box-shadow:0 20px 70px rgba(76,47,56,.12)}.cloud-auth-box h2{margin:0 0 6px;color:#5a2735;font-size:27px}.cloud-auth-box p{margin:0 0 20px;color:#7d7072;line-height:1.45}.cloud-auth-status{font-size:12px;color:#7d7072;margin-top:12px;min-height:18px}.cloud-auth-user{font-size:13px;color:#5a2735;margin-top:10px}.cloud-auth-error{font-size:13px;color:#8f4f61;margin-top:10px;min-height:20px}.cloud-logout{margin-top:12px}
@@ -68,7 +67,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <main>
 <section id="home" class="view active">
 <div class="topline"><div><h2>Октябрь 2026</h2><p>Твой финансовый план на сейчас</p></div></div>
-<div class="panel car-debt"><div class="section-head"><div><h3 style="margin-bottom:4px">Машина</h3><div class="row-meta">Долг за автомобиль</div></div><div class="money" id="carDebtRemaining">—</div></div><div class="bar debt-bar"><span id="carDebtBar" style="width:0%"></span><span class="debt-car" aria-hidden="true">🚙</span></div><div class="section-head" style="margin-bottom:0"><div class="row-meta" id="carDebtProgress">Погашено 0 ₽ из 400 000 ₽</div><span class="tag" id="carDebtPercent">0%</span></div></div>
+<div class="panel car-debt"><div class="section-head"><div><h3 style="margin-bottom:4px">Машина</h3><div class="row-meta">Долг за автомобиль</div></div><div class="money" id="carDebtRemaining">—</div></div><div class="bar debt-bar"><span id="carDebtBar" style="width:0%"></span></div><div class="section-head" style="margin-bottom:0"><div class="row-meta" id="carDebtProgress">Погашено 0 ₽ из 400 000 ₽</div><span class="tag" id="carDebtPercent">0%</span></div></div>
 <div class="cards"><div class="card"><div class="label">Доступно сейчас</div><div class="value" id="available">—</div><div class="sub" id="availableSub"></div></div><div class="card"><div class="label">Следующая выплата</div><div class="value" id="nextPay">—</div><div class="sub" id="nextPaySub"></div></div><div class="card"><div class="label">Можно потратить</div><div class="value good" id="canSpend">—</div><div class="sub">после неприкосновенного остатка</div></div><div class="card"><div class="label">Запланировано покупок</div><div class="value" id="plannedTotal">—</div><div class="sub" id="plannedSub"></div></div></div>
 <div class="grid2"><div><div class="panel"><div class="section-head"><h3>Обязательные расходы</h3><span class="tag">Отметь после оплаты</span></div><div id="mandatoryHome"></div><div class="footer-note">Пока расход не отмечен, он не списывается из «Доступно сейчас».</div></div><div class="panel"><div class="section-head"><h3>Предлагаемый план распределения</h3><span class="tag good">Рекомендация сайта</span></div><div id="allocationHome"></div><div class="footer-note">Здесь сайт показывает обязательные расходы и сумму, которую стоит отложить в копилку в этом периоде.</div></div><div class="panel"><div class="section-head"><h3>Мои цели</h3><button class="btn small" onclick="showView('purchases')">Открыть →</button></div><div id="purchasesHome"></div></div></div><div><div class="panel"><h3>Финансовые подсказки</h3><div id="advice"></div></div><div class="panel"><div class="section-head"><h3>Копилка</h3><span class="tag good">Свободные деньги для целей</span></div><div id="piggyHome"></div></div></div></div>
 </section>
@@ -163,50 +162,59 @@ function monthPlanned(m){return state.purchases.filter(p=>p.status==='planned'&&
 function calcPiggyBalance(){let deposits=Object.values(state.periodDeposits||{}).reduce((s,v)=>s+Math.max(0,Number(v)||0),0);let spent=(state.piggyHistory||[]).reduce((s,x)=>s+Math.max(0,Number(x.amount)||0),0)+(state.purchaseHistory||[]).reduce((s,x)=>s+Math.max(0,Number(x.price)||0),0);return Math.max(0,deposits-spent)}
 function syncPiggyBalance(){let deposits=Object.values(state.periodDeposits||{}).filter(v=>Number(v)>0);if(deposits.length||((state.piggyHistory||[]).length>0)||((state.purchaseHistory||[]).length>0)){state.piggyBank=calcPiggyBalance()}}
 function goalPriorityScore(p){let priority=Number(p.priority)||1;let deadline=p.deadline||'9999-12-31';let wanted=p.wanted||'9999-12';return [priority>=3?0:priority===2?1:2,deadline,wanted,p.price||0]}
-function monthGoalCapacity(m){let now=new Date(),cp=currentPeriod(),today=dateKey(now),total=0;for(const p of periodList()){let pm=p.start.toISOString().slice(0,7);if(pm!==m)continue;let extra=state.extra.filter(x=>x.date>=dateKey(p.start)&&x.date<=dateKey(p.end)&& (p.start<=now ? x.date<=today : true)).reduce((s,x)=>s+x.amount,0);if(p.start<=now){let paid=paidMandatoryTotal(m),deposit=state.periodDeposits[dateKey(cp.start)]||0,available=p===cp?(p.amount+extra-paid-deposit-state.settings.reserve):0;total+=Math.max(0,available)}else{let fixed=fixedFor(m,p.payDay<=7?'5':'20');total+=Math.max(0,p.amount+extra-fixed-lifeMin)}}return Math.max(0,Math.round(total))}
+function goalTargetMonth(p){
+ let currentMonth=new Date().toISOString().slice(0,7);
+ if(p.deadline){let dm=p.deadline.slice(0,7);if(months.includes(dm))return dm;if(dm<currentMonth)return currentMonth}
+ if(p.wanted&&months.includes(p.wanted))return p.wanted;
+ if(Number(p.priority)>=3)return currentMonth;
+ if(Number(p.priority)===2)return months[Math.min(1,months.length-1)];
+ return months[Math.min(2,months.length-1)];
+}
+function monthGoalCapacity(m){let now=new Date(),cp=currentPeriod(),today=dateKey(now),total=0;for(const p of periodList()){let pm=p.start.toISOString().slice(0,7);if(pm!==m)continue;let extra=state.extra.filter(x=>x.date>=dateKey(p.start)&&x.date<=dateKey(p.end)&&(p.start>now||x.date<=today)).reduce((s,x)=>s+x.amount,0);if(p.start<=now){let paid=paidMandatoryTotal(m),deposit=state.periodDeposits[dateKey(cp.start)]||0,available=p===cp?(p.amount+extra-paid-deposit-state.settings.reserve):0;total+=Math.max(0,available)}else{let fixed=fixedFor(m,p.payDay<=7?'5':'20');total+=Math.max(0,p.amount+extra-fixed-lifeMin)}}return Math.max(0,Math.round(total))}
 function buildGoalPlan(extraGoal=null){
  let planned=state.purchases.filter(p=>p.status==='planned').map(p=>p);
  if(extraGoal&&!planned.some(p=>p.id===extraGoal.id))planned.push({...extraGoal,id:extraGoal.id??'__preview__',status:'planned'});
  let capacities={};months.forEach(m=>capacities[m]=monthGoalCapacity(m));
- let balanceByMonth=[],balance=Math.max(0,Number(state.piggyBank)||0);
+ let plans=new Map(),balanceByMonth=[],balance=Math.max(0,Number(state.piggyBank)||0);
  for(let i=0;i<months.length;i++){balance+=capacities[months[i]];balanceByMonth[i]=balance}
- let plans=new Map();
- // Сначала резервируем все зафиксированные цели. Они не могут быть сдвинуты
- // и тем самым уменьшают доступный ресурс для всех остальных целей.
  let locked=[...planned].filter(p=>p.lockedPlan&&p.lockedPlan.month&&months.includes(p.lockedPlan.month)).sort((a,b)=>months.indexOf(a.lockedPlan.month)-months.indexOf(b.lockedPlan.month)||String(a.id).localeCompare(String(b.id)));
- for(const p of locked){
-   let chosen=months.indexOf(p.lockedPlan.month),amount=Math.max(0,Number(p.lockedPlan.amount||p.price));
-   for(let i=chosen;i<months.length;i++)balanceByMonth[i]-=amount;
-   plans.set(p.id,{month:p.lockedPlan.month,deadlineImpossible:!!(p.deadline&&p.lockedPlan.month>p.deadline.slice(0,7)),delayedByPriority:false,availableAtMonth:balanceByMonth[chosen],locked:true,lockedAmount:amount});
- }
+ for(const p of locked){let chosen=months.indexOf(p.lockedPlan.month),amount=Math.max(0,Number(p.lockedPlan.amount||p.price));for(let i=chosen;i<months.length;i++)balanceByMonth[i]-=amount;plans.set(p.id,{month:p.lockedPlan.month,deadlineImpossible:!!(p.deadline&&p.lockedPlan.month>p.deadline.slice(0,7)),delayedByPriority:false,availableAtMonth:balanceByMonth[chosen],locked:true,lockedAmount:amount})}
  let unlocked=planned.filter(p=>!p.lockedPlan||!p.lockedPlan.month||!months.includes(p.lockedPlan.month));
  let ordered=[...unlocked].sort((a,b)=>{let sa=goalPriorityScore(a),sb=goalPriorityScore(b);return sa[0]-sb[0]||sa[1].localeCompare(sb[1])||sa[2].localeCompare(sb[2])||String(a.id).localeCompare(String(b.id))});
- let highestPriorityMonth=0;
  for(const p of ordered){
-   let wantedIndex=p.wanted&&months.includes(p.wanted)?months.indexOf(p.wanted):0;
-   let deadline=p.deadline?months.find(m=>m===p.deadline.slice(0,7))||p.deadline.slice(0,7):'';
-   let deadlineIndex=deadline?months.indexOf(deadline):-1;
-   let earliest=p.wanted?wantedIndex:0;
-   if(p.priority<3)earliest=Math.max(earliest,highestPriorityMonth);
-   if(p.deadline&&deadlineIndex>=0&&deadlineIndex<earliest)earliest=deadlineIndex;
+   let target=goalTargetMonth(p),targetIndex=Math.max(0,months.indexOf(target));
+   let deadlineIndex=p.deadline&&months.includes(p.deadline.slice(0,7))?months.indexOf(p.deadline.slice(0,7)):-1;
    let chosen=-1;
-   for(let i=earliest;i<months.length;i++){if(balanceByMonth[i]>=Number(p.price)){chosen=i;break}}
-   if(chosen<0)chosen=months.length-1;
+   // If the user specified a desired month or deadline, keep that month whenever the cumulative plan can fund it.
+   if((p.wanted&&months.includes(p.wanted))||deadlineIndex>=0){
+     if(balanceByMonth[targetIndex]>=Number(p.price))chosen=targetIndex;
+     else if(deadlineIndex>=0){for(let i=targetIndex-1;i>=0;i--){if(balanceByMonth[i]>=Number(p.price)){chosen=i;break}}}
+   }else{
+     for(let i=targetIndex;i<months.length;i++){if(balanceByMonth[i]>=Number(p.price)){chosen=i;break}}
+   }
+   if(chosen<0)chosen=targetIndex;
    let impossibleDeadline=deadlineIndex>=0&&chosen>deadlineIndex;
-   let delayedByPriority=Number(p.priority)<3&&chosen>earliest;
+   let impossibleTarget=((p.wanted&&months.includes(p.wanted))||deadlineIndex>=0)&&chosen!==targetIndex;
    let infoMonth=months[chosen];
-   plans.set(p.id,{month:infoMonth,deadlineImpossible:impossibleDeadline,delayedByPriority,availableAtMonth:balanceByMonth[chosen],locked:false});
+   plans.set(p.id,{month:infoMonth,deadlineImpossible:impossibleDeadline,delayedByPriority:false,availableAtMonth:balanceByMonth[chosen],locked:false,impossibleTarget});
    for(let i=chosen;i<months.length;i++)balanceByMonth[i]-=Number(p.price);
-   highestPriorityMonth=Math.max(highestPriorityMonth,chosen)
  }
  return {plans,balanceByMonth,ordered:[...locked,...ordered]}
 }
-function rollUnfinishedGoalsForward(){let currentMonth=new Date().toISOString().slice(0,7);state.purchases.filter(p=>p.status==='planned'&&!p.lockedPlan?.month).forEach(p=>{if(p.month&&p.month<currentMonth)p.month=currentMonth})}
+function rollUnfinishedGoalsForward(){let currentMonth=new Date().toISOString().slice(0,7);state.purchases.filter(p=>p.status==='planned'&&!p.lockedPlan?.month).forEach(p=>{if(p.month&&p.month<currentMonth&&!p.deadline)p.month=currentMonth})}
 function recompute(){rollUnfinishedGoalsForward();let plan=buildGoalPlan();state.purchases.filter(p=>p.status==='planned').forEach(p=>{let x=plan.plans.get(p.id);p.month=x?x.month:months[0]});renderAll()}
 function bestMonth(p){let plan=buildGoalPlan(p).plans.get(p.id);return plan?plan.month:months[0]}
 function goalList(){return state.purchases.filter(p=>p.status==='planned').sort((a,b)=>{let pa=b.priority-a.priority;if(pa)return pa;let da=(a.deadline||'9999-12').localeCompare(b.deadline||'9999-12');return da||a.month.localeCompare(b.month)})}
 function periodIndex(start){return periodList().findIndex(p=>dateKey(p.start)===dateKey(start))}
-function requiredDepositFor(p){let ps=periodList(),idx=periodIndex(p.start),goals=goalList(),cash=state.piggyBank;if(idx<0)return 0;let m=p.start.toISOString().slice(0,7),same=ps.filter(x=>x.start.toISOString().slice(0,7)===m),first=same[0];if(!first)return 0;let now=new Date();if(p.start>now&&dateKey(p.start)!==dateKey(first.start))return 0;let due=goals.filter(g=>g.month===m).reduce((s,g)=>s+g.price,0);if(!due)return 0;let priorPiggyUse=(state.piggyHistory||[]).filter(x=>x.date<dateKey(p.start)).reduce((s,x)=>s+x.amount,0);let effectiveCash=Math.max(0,cash+priorPiggyUse);let free=Math.max(0,p.amount+state.extra.filter(x=>x.date>=dateKey(p.start)&&x.date<=dateKey(p.end)).reduce((s,x)=>s+x.amount,0)-fixedFor(m,p.payDay<=7?'5':'20')-lifeMin);return Math.min(free,Math.max(0,Math.ceil(due-effectiveCash)))}
+function buildSavingsSchedule(){
+ let plan=buildGoalPlan(),goals=state.purchases.filter(p=>p.status==='planned'),initial=Math.max(0,Number(state.piggyBank)||0),neededByMonth={};
+ months.forEach(m=>neededByMonth[m]=goals.filter(g=>(plan.plans.get(g.id)?.month||g.month)===m).reduce((s,g)=>s+Number(g.price||0),0));
+ let cumulativeGoals=0,cumulativeRecommended=0,targets={};
+ months.forEach(m=>{cumulativeGoals+=neededByMonth[m];let target=Math.max(0,cumulativeGoals-initial);targets[m]=target});
+ let schedule={};for(const p of periodList()){let m=p.start.toISOString().slice(0,7);if(!schedule[dateKey(p.start)])schedule[dateKey(p.start)]=0;let prevMonth=months[Math.max(0,months.indexOf(m)-1)]||m;let already=cumulativeRecommended;let target=targets[m]||0;let add=Math.max(0,target-already);let cap=monthGoalCapacity(m);let remainingCap=Math.max(0,cap);let amount=Math.min(add,remainingCap);schedule[dateKey(p.start)]=Math.max(0,Math.round(amount));cumulativeRecommended+=schedule[dateKey(p.start)];}
+ return {plan,neededByMonth,targets,schedule,totalRecommended:Math.max(0,cumulativeGoals-initial)}
+}
+function requiredDepositFor(p){let schedule=buildSavingsSchedule();return schedule.schedule[dateKey(p.start)]||0}
 function periodData(m,part){let income=(part==='5'?state.settings.salary5:state.settings.salary20)+(part==='5'?0:0);let extra=state.extra.filter(x=>x.date>=m+'-05'&&x.date<=m+'-19').reduce((s,x)=>s+x.amount,0);if(part==='20')extra=state.extra.filter(x=>x.date>=m+'-20'&&x.date<=nextMonth(m)+'-04').reduce((s,x)=>s+x.amount,0);let fixed=fixedFor(m,part);let buys=state.purchases.filter(p=>p.status==='planned'&&p.month===m&&((part==='5')?true:true)).reduce((s,p)=>s+p.price,0);return {income,extra,fixed,buys,total:income+extra-fixed-buys}}
 function nextMonth(m){let d=new Date(m+'-01T12:00:00');d.setMonth(d.getMonth()+1);return d.toISOString().slice(0,7)}
 function renderAll(){renderHome();renderPlan();renderPurchases();renderControl();renderSettings()}
@@ -224,7 +232,30 @@ let list=goalList().slice(0,4);document.getElementById('purchasesHome').innerHTM
 let warnings=[];if(avail<state.settings.reserve)warnings.push(`<div class="notice"><span class="bad">⚠</span> После обязательных расходов и текущего взноса в копилку доступно меньше неприкосновенного остатка.</div>`);else warnings.push(`<div class="notice"><span class="good">✓</span> Текущий период укладывается в безопасный остаток.</div>`);warnings.push(`<div class="notice">💡 В контроле текущего периода ты отмечаешь, сколько реально отложила в копилку.</div>`);document.getElementById('advice').innerHTML=warnings.join('');let affordable=goalList().filter(p=>p.price<=state.piggyBank)[0];document.getElementById('piggyHome').innerHTML=`<div class="value" style="color:var(--accent)">${rub(state.piggyBank)}</div><div class="row-meta">${affordable?'Сейчас можно позволить: '+affordable.name:'Пока ни одна цель не помещается в копилку полностью.'}</div>`}
 function recommendationReason(p,m){let info=buildGoalPlan().plans.get(p.id);if(!info)return 'месяц выбран по текущему финансовому плану';if(info.locked)return 'план зафиксирован и не двигается';if(info.deadlineImpossible)return 'при текущих возможностях цель не успевает к крайнему сроку, поэтому выбран ближайший реалистичный месяц';if(info.delayedByPriority)return 'цели с более высоким приоритетом и более близкими сроками идут раньше';if(p.deadline&&m===p.deadline.slice(0,7))return 'месяц выбран с учётом крайнего срока';if(p.wanted&&m===p.wanted)return 'это твой желаемый месяц, и он вписывается в доступный бюджет';if(Number(p.priority)>=3)return 'высокий приоритет позволяет поставить цель раньше остальных, если хватает денег';if(Number(p.priority)===2)return 'средний приоритет: сначала учитываются более срочные и важные цели';return 'низкий приоритет: цель отложена после более важных расходов и целей';}
 function renderPurchases(){let el=document.getElementById('purchaseList');el.innerHTML=state.purchases.map(p=>{let m=p.lockedPlan?.month||p.month||bestMonth(p),info=buildGoalPlan().plans.get(p.id),reason=recommendationReason(p,m);return `<div class="purchase"><div class="purchase-top"><div><h4>${p.name}</h4><div class="row-meta">Приоритет: ${p.priority>=3?'высокий':p.priority===2?'средний':'низкий'}</div></div><span class="tag ${p.lockedPlan?'good':p.status==='planned'?'good':p.status==='moved'?'warn':''}">${p.lockedPlan?'🔒 План зафиксирован':p.status==='planned'?'Запланировано':p.status==='done'?'Куплено':p.status==='cancelled'?'Отменено':'Перенесено'}</span></div><div class="price">${rub(p.price)}</div><div class="row-meta"><b>${p.lockedPlan?'Зафиксировано:':'План:'} ${monthName(m)}</b>${p.deadline?' · крайний срок: '+new Date(p.deadline+'T12:00:00').toLocaleDateString('ru-RU'):''}</div>${p.lockedPlan?`<div class="notice"><span class="good">🔒</span> Зафиксировано: <b>${rub(p.lockedPlan.amount||p.price)}</b> должны быть обеспечены к ${monthName(p.lockedPlan.month)}. Остальные цели и расчёты подстраиваются вокруг этого плана.</div>`:`<div class="recommend" style="margin-top:10px"><strong>Почему так:</strong> ${reason}.</div>`}${info?.deadlineImpossible?`<div class="notice"><span class="bad">⚠</span> По текущему плану цель не успевает к крайнему сроку. Приложение не будет притворяться, что денег достаточно.</div>`:''}${p.comment?`<div class="notice">${p.comment}</div>`:''}<div class="purchase-actions">${p.link?`<a class="btn small" href="${p.link}" target="_blank" rel="noopener">🛍 Открыть товар</a>`:''}<button class="btn small" onclick="editPurchase(${p.id})" ${p.lockedPlan?'disabled title="Сначала снимите фиксацию плана"':''}>Изменить</button>${p.lockedPlan?`<button class="btn small" onclick="toggleGoalLock(${p.id})">Снять фиксацию</button>`:`<button class="btn small primary" onclick="toggleGoalLock(${p.id})">🔒 Зафиксировать план</button>`}<button class="btn small" onclick="markDone(${p.id})">Куплено</button></div></div>`}).join('');let balance=state.piggyBank||0,planned=goalList(),total=planned.reduce((s,p)=>s+p.price,0),can=planned.filter(p=>p.price<=balance).length;document.getElementById('piggyBalance').textContent=rub(balance);document.getElementById('piggyBar').style.width=Math.min(100,total?balance/total*100:0)+'%';document.getElementById('piggySummary').textContent=balance?'Отложено '+rub(balance)+' из '+rub(total)+' на текущие цели':'Пока ничего не отложено';document.getElementById('piggyCanSpend').textContent=can?'Можно купить сейчас: '+can+' цель':'Пока ни одна цель не помещается в копилку'}
-function renderPlan(){let ps=periodList();document.getElementById('reserveKpi').textContent=rub(state.settings.reserve);document.getElementById('planPurchaseKpi').textContent=rub(state.purchases.filter(p=>p.status==='planned').reduce((s,p)=>s+p.price,0));document.getElementById('periodsPlan').innerHTML=ps.map(p=>{let part=p.payDay<=7?'5':'20',income=p.amount,extra=state.extra.filter(x=>x.date>=dateKey(p.start)&&x.date<=dateKey(p.end)).reduce((s,x)=>s+x.amount,0),fixed=fixedFor(p.start.toISOString().slice(0,7),part),rec=requiredDepositFor(p),goals=goalList().filter(g=>g.month===p.start.toISOString().slice(0,7));return '<div class="period"><div class="period-head"><div><div class="period-title">'+fmtDate(p.start)+' — '+fmtDate(p.end)+'</div><div class="period-meta">'+p.label+' · выплата '+rub(income)+(extra?' · +'+rub(extra)+' доп. доход':'')+'</div></div><div class="money good">В копилку: '+rub(rec)+'</div></div><div class="bar"><span style="width:'+Math.max(0,Math.min(100,rec/Math.max(1,income+extra)*100))+'%"></span></div><div class="row"><div class="row-main"><div class="row-title">Обязательные расходы</div><div class="row-meta">Только расходы этой выплаты</div></div><div class="money">−'+rub(fixed)+'</div></div><div class="row"><div class="row-main"><div class="row-title">Рекомендуемые покупки</div><div class="row-meta">'+(goals.length?goals.map(g=>g.name+' — '+rub(g.price)).join(' · '):'В этом периоде покупать ничего не рекомендуется')+'</div></div></div></div>'}).join('')}
+function renderPlan(){
+ let ps=periodList(),savings=buildSavingsSchedule(),shownMonths={};
+ document.getElementById('reserveKpi').textContent=rub(state.settings.reserve);
+ document.getElementById('planPurchaseKpi').textContent=rub(state.purchases.filter(p=>p.status==='planned').reduce((s,p)=>s+p.price,0));
+ document.getElementById('periodsPlan').innerHTML=ps.map(p=>{
+   let m=p.start.toISOString().slice(0,7),part=p.payDay<=7?'5':'20',income=p.amount;
+   let extra=state.extra.filter(x=>x.date>=dateKey(p.start)&&x.date<=dateKey(p.end)).reduce((s,x)=>s+x.amount,0);
+   let fixed=fixedFor(m,part),rec=savings.schedule[dateKey(p.start)]||0;
+   let goals=goalList().filter(g=>(savings.plan.plans.get(g.id)?.month||g.month)===m);
+   let firstOfMonth=!shownMonths[m]; shownMonths[m]=true;
+   let monthNeed=savings.neededByMonth[m]||0;
+   let goalHtml=firstOfMonth
+     ? (goals.length
+       ? goals.map(g=>{let info=savings.plan.plans.get(g.id);let label=info?.locked?'🔒 зафиксировано':(g.deadline?'до '+new Date(g.deadline+'T12:00:00').toLocaleDateString('ru-RU'):(g.wanted?'желательно '+monthName(g.wanted):'по приоритету'));return `<div class="plan-goal"><b>${g.name}</b> — ${rub(g.price)} <span class="row-meta">(${label})</span></div>`}).join('')
+       : '<div class="row-meta">На этот месяц целей не запланировано.</div>')
+     : '<div class="row-meta">Цели месяца уже показаны выше.</div>';
+   return `<div class="period">
+     <div class="period-head"><div><div class="period-title">${fmtDate(p.start)} — ${fmtDate(p.end)}</div><div class="period-meta">${p.label} · выплата ${rub(income)}${extra?' · +'+rub(extra)+' доп. доход':''}</div></div><div class="money good">В копилку: ${rub(rec)}</div></div>
+     <div class="bar"><span style="width:${Math.max(0,Math.min(100,rec/Math.max(1,income+extra)*100))}%"></span></div>
+     <div class="row"><div class="row-main"><div class="row-title">Обязательные расходы</div><div class="row-meta">Только расходы этой выплаты</div></div><div class="money">−${rub(fixed)}</div></div>
+     <div class="row"><div class="row-main"><div class="row-title">Цели на ${monthName(m)}</div><div class="row-meta">Стоимость целей месяца: <b>${rub(monthNeed)}</b></div><div style="margin-top:8px">${goalHtml}</div></div></div>
+   </div>`;
+ }).join('');
+}
 function historyEventId(type,id){return type+':'+String(id)}
 function deleteHistoryEntry(eventId){if(!eventId)return;if(!Array.isArray(state.historyHidden))state.historyHidden=[];if(!state.historyHidden.includes(eventId))state.historyHidden.push(eventId);renderAll()}
 function renderControl(){syncPiggyBalance();state.purchaseHistory=state.purchaseHistory||[];state.piggyHistory=state.piggyHistory||[];state.historyHidden=state.historyHidden||[];let ps=periodList(),now=new Date(),cp=currentPeriod(),key=dateKey(cp.start),actual=state.periodDeposits[key]||0,required=requiredDepositFor(cp);let fixed=state.purchases.filter(p=>p.status==='planned'&&p.lockedPlan?.month);let fixedHtml=fixed.length?'<div class="panel" style="margin-bottom:14px"><div class="section-head"><div><h3 style="margin-bottom:4px">🔒 Зафиксированные планы</h3><div class="row-meta">Эти суммы и сроки больше не двигаются. Все остальные расчёты строятся вокруг них.</div></div><span class="tag good">Недвижимо</span></div>'+fixed.map(p=>'<div class="row"><div class="row-main"><div class="row-title">'+p.name+'</div><div class="row-meta">Обеспечить '+rub(p.lockedPlan.amount||p.price)+' к '+monthName(p.lockedPlan.month)+'</div></div><div class="money good">'+rub(p.lockedPlan.amount||p.price)+'</div></div>').join('')+'</div>':'<div class="notice" style="margin-bottom:14px">💡 Здесь появятся планы, которые ты зафиксируешь в разделе «Мои цели». После фиксации приложение будет считать их обязательными.</div>';document.getElementById('controlCard').innerHTML=fixedHtml+'<div class="row"><div class="row-main"><div class="row-title">Рекомендуется отложить в текущем периоде</div></div><div class="money good">'+rub(required)+'</div></div><div class="row"><div class="row-main"><div class="row-title">Фактически отложено</div></div><div class="money">'+rub(actual)+'</div></div><div class="row"><div class="row-main"><div class="row-title">Копилка сейчас</div></div><div class="money">'+rub(state.piggyBank)+'</div></div><div class="row-meta" style="margin-top:8px">Всего пополнено за всё время: <b>'+rub(Object.values(state.periodDeposits||{}).reduce((s,v)=>s+Math.max(0,Number(v)||0),0))+'</b>. Переход в новый период не обнуляет накопления.</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="openControl()">Указать фактическое накопление</button><button class="btn" onclick="openPiggyExpense()">Уменьшить копилку</button></div>';let depositEvents=Object.entries(state.periodDeposits||{}).filter(([,amount])=>Number(amount)>0).map(([date,amount])=>({id:historyEventId('deposit',date),date,amount:Number(amount),title:'Пополнение копилки',detail:'Фактически отложено за финансовый период'}));let piggyEvents=state.piggyHistory.map(x=>({id:historyEventId('piggy',x.id),date:x.date,amount:-x.amount,title:'Уменьшение копилки',detail:x.reason+(x.comment?' · '+x.comment:'')}));let extraEvents=state.extra.map(x=>({id:historyEventId('extra',x.id||x.date+'-'+x.amount),date:x.date,amount:x.amount,title:x.type==='expense'?'Уменьшение суммы':'Дополнительный доход',detail:x.source+(x.comment?' · '+x.comment:'')}));let purchaseEvents=state.purchaseHistory.map(x=>({id:historyEventId('purchase',x.id+'-'+x.date),date:x.date,amount:-x.price,title:'Покупка: '+x.name,detail:'Покупка выполнена из копилки'}));let events=[...depositEvents,...piggyEvents,...extraEvents,...purchaseEvents].filter(x=>!state.historyHidden.includes(x.id)).sort((a,b)=>b.date.localeCompare(a.date));document.getElementById('depositForecast').innerHTML='';document.getElementById('history').innerHTML=events.length?events.map(x=>'<div class="row"><div class="row-main"><div class="row-title">'+x.title+'</div><div class="row-meta">'+x.date+' · '+x.detail+'</div></div><div style="display:flex;align-items:center;gap:8px"><div class="money '+(x.amount<0?'bad':'good')+'">'+(x.amount<0?'−':'+')+rub(Math.abs(x.amount))+'</div><button class="history-delete" title="Удалить запись из истории" aria-label="Удалить запись из истории" onclick="deleteHistoryEntry('+JSON.stringify(x.id)+')">🗑️</button></div></div>').join(''):'<div class="empty">История пока пуста.</div>';let past=ps.filter(p=>p.end<now),deposits=past.reduce((s,p)=>s+(state.periodDeposits[dateKey(p.start)]||0),0),purchases=state.purchaseHistory.reduce((s,x)=>s+x.price,0);document.getElementById('historyPeriods').textContent=past.length;document.getElementById('historyDeposits').textContent=rub(deposits);document.getElementById('historyPurchases').textContent=rub(purchases);document.getElementById('historyAverage').textContent=rub(past.length?deposits/past.length:0)}

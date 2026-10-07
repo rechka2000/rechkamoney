@@ -21,6 +21,42 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 .card,.panel,.purchase,.period{background:rgba(255,254,250,.98);border-color:var(--line);box-shadow:var(--shadow)}.card{border-radius:10px}.panel{border-radius:10px}.period{border-radius:8px}.card:hover,.purchase:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(76,47,56,.1)}.value{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#5a2735}.money,.kpi .big{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.label,.sub,.row-meta,.footer-note,.tag,.field label{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.row{border-bottom-color:#e7dfdc}.bar{background:#e9e3df}.bar span{background:#8b5865}.tag{background:#eee8e5}.tag.good{background:#e9e9e5;color:#73766c}.tag.warn{background:#f0e5e3;color:#a27673}.tag.bad{background:#eadcdf;color:#8f4f61}.good{color:#73766c}.warn{color:#a27673}.bad{color:#8f4f61}
 .recommend{border-color:#d1d3cc;background:#f3f3ee}.recommend strong{color:#6d7068}.notice{background:#f0ebe7;border:1px solid #ded4d0}.kpi{background:#ebe5e1}.field input,.field select,.field textarea{background:#f5f0ed;border-color:#ded5d2;color:var(--text)}.modal-box{background:#fffefa;border-color:var(--line)}
  a.link{color:#5a2735}
+
+/* ===== VISUAL MOTION — функциональная логика не изменена ===== */
+@keyframes softPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(.995)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes driveCar{0%{left:0;transform:translateX(-18px) rotate(-1deg)}72%{left:calc(100% - 22px);transform:translateX(0) rotate(0)}86%{left:calc(100% - 18px);transform:translateX(0) rotate(0)}100%{left:calc(100% - 18px);transform:translateX(0) rotate(0)}}
+@keyframes barGlow{0%,100%{box-shadow:inset 0 0 0 rgba(139,88,101,0)}50%{box-shadow:inset 0 0 12px rgba(139,88,101,.12)}}
+@keyframes shimmer{0%{background-position:-180px 0}100%{background-position:180px 0}}
+@keyframes gentleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+
+.view.active{animation:softPageIn .32s ease both}
+.card,.panel,.purchase,.period{animation:cardIn .42s ease both;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.card:hover,.panel:hover,.purchase:hover,.period:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(76,47,56,.10)}
+.btn{transition:transform .16s ease,box-shadow .16s ease,background-color .16s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px) scale(.985)}
+.nav button{transition:color .18s ease,background .18s ease,transform .18s ease}
+.nav button:hover{transform:translateY(-1px)}
+.value,.kpi .big{transition:transform .22s ease,color .22s ease}
+.kpi:hover .big{transform:translateY(-1px)}
+.bar>span:not(.debt-car){transition:width .65s cubic-bezier(.22,.8,.24,1);position:relative;overflow:hidden}
+.bar>span:not(.debt-car)::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.28) 45%,transparent 70%);background-size:180px 100%;animation:shimmer 2.8s linear infinite;opacity:.7}
+.debt-bar{position:relative;overflow:visible;animation:barGlow 3.2s ease-in-out infinite}
+.debt-bar>span:first-child{overflow:hidden}
+.debt-car{position:absolute!important;top:50%;left:0;width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important;line-height:1;font-size:18px;z-index:3;transform:translateX(-18px) translateY(-58%);filter:drop-shadow(0 2px 2px rgba(50,70,100,.16));animation:driveCar 2.4s cubic-bezier(.22,.75,.2,1) .25s both}
+.car-debt .tag{transition:transform .2s ease,background .2s ease}
+.car-debt:hover .tag{transform:scale(1.04)}
+#piggyBar{animation:barGlow 3.8s ease-in-out infinite}
+.purchase-actions .btn,.section-head .btn{transition:transform .16s ease,box-shadow .16s ease}
+.purchase-actions .btn:hover,.section-head .btn:hover{transform:translateY(-1px)}
+
+@media (prefers-reduced-motion: reduce){
+  .view.active,.card,.panel,.purchase,.period,.debt-bar,#piggyBar{animation:none!important}
+  .debt-car{animation:none!important;left:calc(100% - 18px);transform:translateY(-58%)}
+  .bar>span:not(.debt-car){transition:none!important}
+}
+
 </style>
 <style>
 .cloud-auth{position:fixed;inset:0;z-index:100;background:#faf8f2;display:flex;align-items:center;justify-content:center;padding:20px}.cloud-auth.hidden{display:none}.cloud-auth-box{width:min(430px,100%);background:#fffefa;border:1px solid #ded5d2;border-radius:16px;padding:28px;box-shadow:0 20px 70px rgba(76,47,56,.12)}.cloud-auth-box h2{margin:0 0 6px;color:#5a2735;font-size:27px}.cloud-auth-box p{margin:0 0 20px;color:#7d7072;line-height:1.45}.cloud-auth-status{font-size:12px;color:#7d7072;margin-top:12px;min-height:18px}.cloud-auth-user{font-size:13px;color:#5a2735;margin-top:10px}.cloud-auth-error{font-size:13px;color:#8f4f61;margin-top:10px;min-height:20px}.cloud-logout{margin-top:12px}
@@ -32,7 +68,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 <main>
 <section id="home" class="view active">
 <div class="topline"><div><h2>Октябрь 2026</h2><p>Твой финансовый план на сейчас</p></div></div>
-<div class="panel car-debt"><div class="section-head"><div><h3 style="margin-bottom:4px">Машина</h3><div class="row-meta">Долг за автомобиль</div></div><div class="money" id="carDebtRemaining">—</div></div><div class="bar debt-bar"><span id="carDebtBar" style="width:0%"></span></div><div class="section-head" style="margin-bottom:0"><div class="row-meta" id="carDebtProgress">Погашено 0 ₽ из 400 000 ₽</div><span class="tag" id="carDebtPercent">0%</span></div></div>
+<div class="panel car-debt"><div class="section-head"><div><h3 style="margin-bottom:4px">Машина</h3><div class="row-meta">Долг за автомобиль</div></div><div class="money" id="carDebtRemaining">—</div></div><div class="bar debt-bar"><span id="carDebtBar" style="width:0%"></span><span class="debt-car" aria-hidden="true">🚙</span></div><div class="section-head" style="margin-bottom:0"><div class="row-meta" id="carDebtProgress">Погашено 0 ₽ из 400 000 ₽</div><span class="tag" id="carDebtPercent">0%</span></div></div>
 <div class="cards"><div class="card"><div class="label">Доступно сейчас</div><div class="value" id="available">—</div><div class="sub" id="availableSub"></div></div><div class="card"><div class="label">Следующая выплата</div><div class="value" id="nextPay">—</div><div class="sub" id="nextPaySub"></div></div><div class="card"><div class="label">Можно потратить</div><div class="value good" id="canSpend">—</div><div class="sub">после неприкосновенного остатка</div></div><div class="card"><div class="label">Запланировано покупок</div><div class="value" id="plannedTotal">—</div><div class="sub" id="plannedSub"></div></div></div>
 <div class="grid2"><div><div class="panel"><div class="section-head"><h3>Обязательные расходы</h3><span class="tag">Отметь после оплаты</span></div><div id="mandatoryHome"></div><div class="footer-note">Пока расход не отмечен, он не списывается из «Доступно сейчас».</div></div><div class="panel"><div class="section-head"><h3>Предлагаемый план распределения</h3><span class="tag good">Рекомендация сайта</span></div><div id="allocationHome"></div><div class="footer-note">Здесь сайт показывает обязательные расходы и сумму, которую стоит отложить в копилку в этом периоде.</div></div><div class="panel"><div class="section-head"><h3>Мои цели</h3><button class="btn small" onclick="showView('purchases')">Открыть →</button></div><div id="purchasesHome"></div></div></div><div><div class="panel"><h3>Финансовые подсказки</h3><div id="advice"></div></div><div class="panel"><div class="section-head"><h3>Копилка</h3><span class="tag good">Свободные деньги для целей</span></div><div id="piggyHome"></div></div></div></div>
 </section>
